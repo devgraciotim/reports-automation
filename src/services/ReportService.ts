@@ -70,8 +70,10 @@ export class ReportService {
             // Botão de download de relatório
             await driver.findElement(By.xpath(data.downloadButton)).click();
 
-            // Espera mais tempo para o download ser finalizado
-            await this.waitForDownloadToFinish(downloadPath);
+            // Espera o arquivo ser baixado
+            const downloadedFilePath = await this.waitForDownloadToFinish(downloadPath);
+
+            return downloadedFilePath;  // Retorna o caminho do arquivo baixado
 
         } catch (error) {
             console.error(`An error occurred: ${error}`);
@@ -83,6 +85,7 @@ export class ReportService {
     async waitForDownloadToFinish(downloadPath: string, timeout = 1800000) {
         const startTime = Date.now();
         let downloaded = false;
+        let downloadedFilePath = '';
     
         while (!downloaded) {
             const files = fs.readdirSync(downloadPath);
@@ -91,17 +94,28 @@ export class ReportService {
             const hasTempFiles = files.some((file: string) => file.endsWith('.crdownload') || file.endsWith('.tmp'));
     
             if (!hasTempFiles && files.length > 0) {
+                // Pega o caminho completo do arquivo
+                downloadedFilePath = path.join(downloadPath, files[0]); // Assume que o arquivo baixado será o primeiro na lista
                 downloaded = true;
             } else if (Date.now() - startTime > timeout) {
                 throw new Error("O tempo de espera para o download expirou.");
             } else {
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                await new Promise(resolve => setTimeout(resolve, 1000)); // Aguardar 1 segundo
             }
         }
+    
+        // Retorna o caminho completo do arquivo
+        console.log(`Arquivo baixado com sucesso: ${downloadedFilePath}`);
+        return downloadedFilePath;
     }
     
     async getAllPeriod() {
-        await this.getReport("01/01/2023", this.getFormattedDate());
+        const initialDate = "19/11/2024";
+        const finalDate = this.getFormattedDate();
+        
+        // Chama a função getReport e aguarda o caminho do arquivo
+        const downloadedFilePath = await this.getReport(initialDate, finalDate);
+        return downloadedFilePath;  // Retorna o caminho para o arquivo
     }
 
     getFormattedDate() {
@@ -116,5 +130,5 @@ export class ReportService {
 
 
 
-const report = new ReportService();
-report.getAllPeriod();
+// const report = new ReportService();
+// report.getAllPeriod();
