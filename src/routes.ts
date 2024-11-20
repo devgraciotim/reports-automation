@@ -1,9 +1,9 @@
 import { Router, Request, Response } from "express";
+import { ReportService } from "./services/ReportService";
 
 const router = Router();
+// const reportService = new ReportService();
 
-router.get("/", (req: Request, res: Response) => {
-    res.send("Hello World!");
-});
+// router.get("/download", );
 
 export default router;

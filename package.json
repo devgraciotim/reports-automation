@@ -1,0 +1,26 @@
+{
+  "name": "reports-automation",
+  "version": "1.0.0",
+  "description": "```bash $ npm install # or pnpm install or yarn install ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "ts-node src/services/ReportService",
+    "start": "ts-node src/server",
+    "build": "tsc",
+    "serve": "node dist/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.1",
+    "selenium-webdriver": "^4.26.0",
+    "mocha": "10.8.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.9.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
