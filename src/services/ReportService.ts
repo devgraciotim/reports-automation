@@ -95,12 +95,12 @@ export class ReportService {
     
             if (!hasTempFiles && files.length > 0) {
                 // Pega o caminho completo do arquivo
-                downloadedFilePath = path.join(downloadPath, files[0]); // Assume que o arquivo baixado será o primeiro na lista
+                downloadedFilePath = path.join(downloadPath, files[0]);
                 downloaded = true;
             } else if (Date.now() - startTime > timeout) {
                 throw new Error("O tempo de espera para o download expirou.");
             } else {
-                await new Promise(resolve => setTimeout(resolve, 1000)); // Aguardar 1 segundo
+                await new Promise(resolve => setTimeout(resolve, 1000));
             }
         }
     
@@ -109,13 +109,9 @@ export class ReportService {
         return downloadedFilePath;
     }
     
-    async getAllPeriod() {
-        const initialDate = "19/11/2024";
-        const finalDate = this.getFormattedDate();
-        
+    async getAllPeriod() {  
         // Chama a função getReport e aguarda o caminho do arquivo
-        const downloadedFilePath = await this.getReport(initialDate, finalDate);
-        return downloadedFilePath;  // Retorna o caminho para o arquivo
+        return await this.getReport("01/01/2023", this.getFormattedDate());
     }
 
     getFormattedDate() {
@@ -127,8 +123,3 @@ export class ReportService {
         return `${day}/${month}/${year}`;
     };
 }
-
-
-
-// const report = new ReportService();
-// report.getAllPeriod();
