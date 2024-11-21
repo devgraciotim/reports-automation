@@ -9,19 +9,23 @@ import { data } from "../data/xpath";
 const downloadPath = path.resolve(__dirname, '../../downloads');
 
 // Configurar preferências do Chrome
-const chromeOptions = new chrome.Options();
-chromeOptions.setUserPreferences({
-    "download.default_directory": downloadPath,
-    "download.prompt_for_download": false,
-    "safebrowsing.enabled": true,
-    "download.directory_upgrade": true,
-});
+const options = new chrome.Options();
+    options.addArguments('--headless'); // Define o modo headless
+    options.addArguments('--disable-gpu'); // Recomendado para compatibilidade no modo headless
+    options.addArguments('--no-sandbox'); // Necessário em alguns ambientes (ex.: CI/CD)
+    options.addArguments('--disable-dev-shm-usage'); // Melhora o uso de memória compartilhada em containers
+    options.setUserPreferences({
+        "download.default_directory": downloadPath, // Define o diretório de download
+        "download.prompt_for_download": false, // Evita prompts de download
+        "safebrowsing.enabled": true, // Evita avisos de segurança
+        "download.directory_upgrade": true // Atualiza o diretório automaticamente
+    });
 
 
 export class ReportService {
 
     async getReport(initialDate: string, finalDate: string) {
-        const driver = await new Builder().forBrowser(Browser.CHROME).setChromeOptions(chromeOptions).build();
+        const driver = await new Builder().forBrowser(Browser.CHROME).setChromeOptions(options).build();
 
         try {
             await driver.get("https://mabu.requestia.com/");
@@ -111,7 +115,7 @@ export class ReportService {
     
     async getAllPeriod() {  
         // Chama a função getReport e aguarda o caminho do arquivo
-        return await this.getReport("01/01/2023", this.getFormattedDate());
+        return await this.getReport("11/11/2024", this.getFormattedDate());
     }
 
     getFormattedDate() {
