@@ -23,6 +23,8 @@ export const navigation = [
     {description: "ok button", xpath: "/html/body/div[27]/div[2]/div[2]/div/div/div/div[1]/table/tbody/tr/td[1]/table/tbody/tr/td[1]/table/tbody/tr[2]/td[2]/em/button"}
 ];
 
+
+
 export const columnsList = [
     {question: "GER_Empresa", title: "Escolha a empresa", xpath: "/html/body/div[27]/div[2]/div[1]/div/div/div/div/div[2]/div/div/div/div/div/div[3]/div[2]/div[1]/div/div[1]/div[2]/div/div/div[2]/div/table/tbody/tr"}
 ];
