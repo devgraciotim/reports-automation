@@ -1,10 +1,9 @@
 import { Router, Request, Response } from "express";
-import { ReportService } from "./services/ReportService";
+import { biRequestiaReport } from "./services/biRequestiaReport";
 import fs from 'fs';
-import path from 'path';
 
 const router = Router();
-const reportService = new ReportService();
+const reportService = new biRequestiaReport();
 
 router.get('/download-report', async (req: Request, res: Response) => {
     try {

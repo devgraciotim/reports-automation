@@ -22,7 +22,7 @@ const options = new chrome.Options();
     });
 
 
-export class ReportService {
+export class biRequestiaReport {
 
     async getReport(initialDate: string, finalDate: string) {
         const driver = await new Builder().forBrowser(Browser.CHROME).setChromeOptions(options).build();
