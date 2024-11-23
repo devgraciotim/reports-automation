@@ -21,6 +21,8 @@ $ mkdir downloads
 
 ### 3. Criar o arquivo .env
 
+Na raiz do projeto, crie um arquivo .env com conteúdo de acordo com o .env.example
+
 ### 4. Build da aplicação
 
 Antes de rodar a aplicação, é necessário gerar o build. Execute o comando abaixo para compilar a aplicação:
