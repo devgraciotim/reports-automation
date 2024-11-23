@@ -1,28 +1,36 @@
-## Usage
+# Automação Requestia
 
+Automação dedicada a download de relatórios do Requestia.
+
+## Utilização
+
+### 1. Instalar as dependências
+
+Execute o comando abaixo para instalar todas as dependências do projeto:
 ```bash
 $ npm install # or pnpm install or yarn install
 ```
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+### 2. Criar as pastas dist e downloads
 
-## Available Scripts
+Após instalar as dependências, crie as pastas `dist` e `downloads` para armazenar os arquivos gerados pela aplicação:
+```bash
+$ mkdir dist
+$ mkdir downloads
+```
 
-In the project directory, you can run:
+### 3. Criar o arquivo .env
 
-### `npm run dev`
+### 4. Build da aplicação
 
-Runs the app in the development mode.<br>
-Open [http://localhost:5173](http://localhost:5173) to view it in the browser.
+Antes de rodar a aplicação, é necessário gerar o build. Execute o comando abaixo para compilar a aplicação:
+```bash
+$ npm run build
+```
 
-### `npm run build`
+### 5. Rodar a aplicação
 
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-## Deployment
-
-Learn more about deploying your application with the [documentations](https://vite.dev/guide/static-deploy.html)
+Após gerar o build, você pode rodar a aplicação com o comando:
+```bash
+$ npm start
+```

@@ -4,6 +4,7 @@ import { chromeOptions, downloadPath } from "../config/chromeConfig";
 import path from "path";
 import fs from "fs";
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 export class ReportService {
@@ -38,7 +39,7 @@ export class ReportService {
         const driver: WebDriver = await this.initDriver();
 
         try {
-            console.log({host: this.host, username: this.username, password: this.password})
+            console.log({ host: this.host, username: this.username, password: this.password })
 
             if (!this.host || !this.username || !this.password) {
                 throw new Error("Missing required environment variables.");
@@ -76,30 +77,49 @@ export class ReportService {
         const startTime = Date.now();
         let downloaded = false;
         let downloadedFilePath = '';
-    
+
         while (!downloaded) {
             const files = fs.readdirSync(downloadPath);
-    
-            // Verifica se ainda existem arquivos temporários (como .crdownload ou .tmp)
-            const hasTempFiles = files.some((file: string) => file.endsWith('.crdownload') || file.endsWith('.tmp'));
-    
-            if (!hasTempFiles && files.length > 0) {
+
+            // Verifica se o arquivo desejado foi baixado
+            const file = files.find((file: string) => file === 'Caixa_de_Entrada.xlsx');
+
+            if (file) {
                 // Pega o caminho completo do arquivo
-                downloadedFilePath = path.join(downloadPath, files[0]);
+                downloadedFilePath = path.join(downloadPath, file);
                 downloaded = true;
+
+                // Renomeia o arquivo
+                const newFilePath = path.join(downloadPath, this.getNewName());
+                fs.renameSync(downloadedFilePath, newFilePath);
+                console.log(`Arquivo renomeado com sucesso: ${newFilePath}`);
+                downloadedFilePath = newFilePath;
             } else if (Date.now() - startTime > timeout) {
                 throw new Error("O tempo de espera para o download expirou.");
             } else {
                 await new Promise(resolve => setTimeout(resolve, 1000));
             }
         }
-    
+
         console.log(`Arquivo baixado com sucesso: ${downloadedFilePath}`);
         return downloadedFilePath;
     }
-    
-    async getAllPeriod(): Promise<string | undefined> {  
-        return await this.getReport("11/11/2024", this.getFormattedDate());
+
+    async getAllPeriod(): Promise<string | undefined> {
+        return await this.getReport("21/11/2024", this.getFormattedDate());
+    }
+
+    getNewName(): string {
+        const now = new Date();
+        const day = String(now.getDate()).padStart(2, '0');
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const year = now.getFullYear();
+
+        const hours = now.getHours().toString().padStart(2, '0');
+        const minutes = now.getMinutes().toString().padStart(2, '0');
+        const seconds = now.getSeconds().toString().padStart(2, '0');
+
+        return `${year}${month}${day}${hours}${minutes}${seconds}.xlsx`;
     }
 
     getFormattedDate(): string {
@@ -107,7 +127,7 @@ export class ReportService {
         const day = String(now.getDate()).padStart(2, '0');
         const month = String(now.getMonth() + 1).padStart(2, '0');
         const year = now.getFullYear();
-    
+
         return `${day}/${month}/${year}`;
     }
 }
