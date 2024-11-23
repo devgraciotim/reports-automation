@@ -106,7 +106,7 @@ export class ReportService {
     }
 
     async getAllPeriod(): Promise<string | undefined> {
-        return await this.getReport("21/11/2024", this.getFormattedDate());
+        return await this.getReport("01/01/2023", this.getFormattedDate());
     }
 
     getNewName(): string {
@@ -131,6 +131,3 @@ export class ReportService {
         return `${day}/${month}/${year}`;
     }
 }
-
-const report = new ReportService()
-report.getAllPeriod()
