@@ -5,9 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "ts-node src/services/ReportService",
-    "start": "ts-node src/server",
-    "build": "tsc",
-    "serve": "node dist/server.js"
+    "start": "node dist/server.js",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
