@@ -35,7 +35,7 @@ export class ReportService {
         await this.findAndClick(driver, data.loginButton);
     }
 
-    async getReport(initialDate: string, finalDate: string): Promise<string | undefined> {
+    async getReport(initialDate: string = "01/01/2023", finalDate: string = this.getFormattedDate()): Promise<string | undefined> {
         const driver: WebDriver = await this.initDriver();
 
         try {
@@ -103,10 +103,6 @@ export class ReportService {
 
         console.log(`Arquivo baixado com sucesso: ${downloadedFilePath}`);
         return downloadedFilePath;
-    }
-
-    async getAllPeriod(): Promise<string | undefined> {
-        return await this.getReport("01/01/2023", this.getFormattedDate());
     }
 
     getNewName(): string {
