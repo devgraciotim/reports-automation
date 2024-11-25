@@ -5,9 +5,16 @@ import path from "path";
 import fs from "fs";
 import dotenv from 'dotenv';
 
+import { DateUtils } from "../utils/DateUtils";
+import { NameUtils } from "../utils/NameUtils";
+
 dotenv.config();
 
 export class ReportService {
+
+    dateUtils = new DateUtils(); 
+    nameUtils = new NameUtils();
+
     private host: string = process.env.HOST!;
     private username: string = process.env.USER!;
     private password: string = process.env.PASSWORD!;
@@ -35,7 +42,7 @@ export class ReportService {
         await this.findAndClick(driver, data.loginButton);
     }
 
-    async getReport(initialDate: string = "01/01/2023", finalDate: string = this.getFormattedDate()): Promise<string | undefined> {
+    async getReport(initialDate: string = "01/01/2023", finalDate: string = this.dateUtils.getFormattedDate()): Promise<string | undefined> {
         const driver: WebDriver = await this.initDriver();
 
         try {
@@ -90,7 +97,7 @@ export class ReportService {
                 downloaded = true;
 
                 // Renomeia o arquivo
-                const newFilePath = path.join(downloadPath, this.getNewName());
+                const newFilePath = path.join(downloadPath, this.nameUtils.getNewName());
                 fs.renameSync(downloadedFilePath, newFilePath);
                 console.log(`Arquivo renomeado com sucesso: ${newFilePath}`);
                 downloadedFilePath = newFilePath;
@@ -103,27 +110,5 @@ export class ReportService {
 
         console.log(`Arquivo baixado com sucesso: ${downloadedFilePath}`);
         return downloadedFilePath;
-    }
-
-    getNewName(): string {
-        const now = new Date();
-        const day = String(now.getDate()).padStart(2, '0');
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const year = now.getFullYear();
-
-        const hours = now.getHours().toString().padStart(2, '0');
-        const minutes = now.getMinutes().toString().padStart(2, '0');
-        const seconds = now.getSeconds().toString().padStart(2, '0');
-
-        return `${year}${month}${day}${hours}${minutes}${seconds}.xlsx`;
-    }
-
-    getFormattedDate(): string {
-        const now = new Date();
-        const day = String(now.getDate()).padStart(2, '0');
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const year = now.getFullYear();
-
-        return `${day}/${month}/${year}`;
     }
 }
