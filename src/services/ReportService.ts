@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 
 import { DateUtils } from "../utils/DateUtils";
 import { NameUtils } from "../utils/NameUtils";
+import { ElementInteractor } from "../interactors/ElementInteractor";
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ export class ReportService {
 
     dateUtils = new DateUtils(); 
     nameUtils = new NameUtils();
+    elementInteractor = new ElementInteractor();
 
     private host: string = process.env.HOST!;
     private username: string = process.env.USER!;
@@ -23,24 +25,7 @@ export class ReportService {
         return await new Builder().forBrowser(Browser.CHROME).setChromeOptions(chromeOptions).build();
     }
 
-    private async findAndSendKeys(driver: WebDriver, xpath: string, keys: string): Promise<void> {
-        await driver?.wait(until.elementLocated(By.xpath(xpath)), 10000);
-        const element: WebElement = await driver?.findElement(By.xpath(xpath));
-        await element?.clear();
-        await element?.sendKeys(keys);
-    }
-
-    private async findAndClick(driver: WebDriver, xpath: string): Promise<void> {
-        await driver?.wait(until.elementLocated(By.xpath(xpath)), 10000);
-        const element: WebElement = await driver?.findElement(By.xpath(xpath));
-        await element?.click();
-    }
-
-    async login(driver: WebDriver, username: string, password: string): Promise<void> {
-        await this.findAndSendKeys(driver, data.usernameInput, username)
-        await this.findAndSendKeys(driver, data.passwordInput, password)
-        await this.findAndClick(driver, data.loginButton);
-    }
+    
 
     async getReport(initialDate: string = "01/01/2023", finalDate: string = this.dateUtils.getFormattedDate()): Promise<string | undefined> {
         const driver: WebDriver = await this.initDriver();
@@ -54,20 +39,20 @@ export class ReportService {
 
             await driver.get(this.host);
 
-            await this.login(driver, this.username, this.password);
+            await this.elementInteractor.login(driver, this.username, this.password);
 
-            await this.findAndClick(driver, data.analystSearchExport);
-            await this.findAndClick(driver, data.searchIn);
+            await this.elementInteractor.findAndClick(driver, data.analystSearchExport);
+            await this.elementInteractor.findAndClick(driver, data.searchIn);
 
-            await this.findAndClick(driver, data.requestStatus);
-            await this.findAndClick(driver, data.openingDate);
+            await this.elementInteractor.findAndClick(driver, data.requestStatus);
+            await this.elementInteractor.findAndClick(driver, data.openingDate);
 
-            await this.findAndSendKeys(driver, data.initialDate, initialDate);
-            await this.findAndSendKeys(driver, data.finalDate, finalDate);
-            await this.findAndClick(driver, data.applyButton);
+            await this.elementInteractor.findAndSendKeys(driver, data.initialDate, initialDate);
+            await this.elementInteractor.findAndSendKeys(driver, data.finalDate, finalDate);
+            await this.elementInteractor.findAndClick(driver, data.applyButton);
 
-            await this.findAndClick(driver, data.searchButton);
-            await this.findAndClick(driver, data.downloadButton);
+            await this.elementInteractor.findAndClick(driver, data.searchButton);
+            await this.elementInteractor.findAndClick(driver, data.downloadButton);
 
             const downloadedFilePath = await this.waitForDownloadToFinish(downloadPath);
 
