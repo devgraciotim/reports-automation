@@ -29,7 +29,7 @@ export class ElementInteractor {
             await this.findAndSendKeys(driver, data.passwordInput, password);
             await this.findAndClick(driver, data.loginButton);
         } catch (error) {
-            console.error('Erro durante o login:', error);
+            console.error('Erro ao realizar login:', error);
         }
     }
 }
