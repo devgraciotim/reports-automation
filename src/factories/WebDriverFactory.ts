@@ -1,46 +1,50 @@
-import { WebDriver, Builder } from 'selenium-webdriver';
-import * as chrome from 'selenium-webdriver/chrome';
+import { WebDriver, Builder } from "selenium-webdriver";
+import * as chrome from "selenium-webdriver/chrome";
 
-interface WebOptions {
+interface IWebOptions {
   headless: boolean;
-  userPreferences: {};
+  gpuUsage?: boolean;
+  sandbox?: boolean;
+  devShmUsage?: boolean;
+  downloadDirectory: string;
 }
 
-interface WebDriverFactory {
-  createDriver(options?: chrome.Options): WebDriver;
-  initOptions(options?: WebOptions): chrome.Options;
+interface IWebDriverFactory {
+  createDriver(options?: IWebOptions): WebDriver;
 }
 
-export class ChromeDriverFactory implements WebDriverFactory  {
-
-    initOptions(options?: WebOptions): chrome.Options {
-      const chromeOptions = new chrome.Options();
-    
-    chromeOptions.addArguments('--disable-gpu');
-    chromeOptions.addArguments('--no-sandbox');
-    chromeOptions.addArguments('--disable-dev-shm-usage');
+export class ChromeDriverFactory implements IWebDriverFactory {
+  private initOptions(options?: IWebOptions): chrome.Options {
+    const chromeOptions = new chrome.Options();
 
     if (options?.headless) {
-      chromeOptions.addArguments('--headless');
+      chromeOptions.addArguments("--headless");
     }
-    if (options?.userPreferences) {
-      chromeOptions.setUserPreferences(options.userPreferences);
-    } else {
-      // const downloadPath = '/path/to/download';
-      // chromeOptions.setUserPreferences('prefs', {
-      //   'download.default_directory': downloadPath,
-      //   'download.prompt_for_download': false,
-      //   'safebrowsing.enabled': true,
-      //   'download.directory_upgrade': true
-      // });
+    if (options?.gpuUsage) {
+      chromeOptions.addArguments("--disable-gpu");
+    }
+    if (options?.sandbox) {
+      chromeOptions.addArguments("--no-sandbox");
+    }
+    if (options?.devShmUsage) {
+      chromeOptions.addArguments("--disable-dev-shm-usage");
     }
 
+    chromeOptions.setUserPreferences({
+      "download.default_directory": options?.downloadDirectory,
+      "download.prompt_for_download": false,
+      "safebrowsing.enabled": true,
+      "download.directory_upgrade": true,
+    });
+    
     return chromeOptions;
   }
 
-  createDriver(options?: chrome.Options): WebDriver {
-    const chromeOptions = options || this.initOptions();
-    return new Builder().forBrowser('chrome').setChromeOptions(chromeOptions).build();
-}
-
+  createDriver(options?: IWebOptions): WebDriver {
+    const chromeOptions = this.initOptions(options);
+    return new Builder()
+      .forBrowser("chrome")
+      .setChromeOptions(chromeOptions)
+      .build();
+  }
 }
