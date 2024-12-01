@@ -2,6 +2,10 @@
 
 Automação dedicada a download de relatórios do Requestia.
 
+## Documentação
+
+Acesse `http://localhost:3000/api-docs/` para consultar a documentação dos Endpoints existentes
+
 ## Utilização
 
 ### 1. Instalar as dependências
