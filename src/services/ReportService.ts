@@ -26,7 +26,7 @@ export class ReportService implements IReportService {
     private downloadPath: string = process.env.DOWNLOAD_PATH!;
 
 
-    async getReport(initialDate: string = "29/11/2024", finalDate: string = this.dateUtils.getFormattedDate()): Promise<string | void> {
+    async getReport(initialDate: string = "01/01/2023", finalDate: string = this.dateUtils.getFormattedDate()): Promise<string | void> {
         const driver: WebDriver = this.chromeDriverFactory.createDriver(
             {
                 headless: false,
@@ -38,8 +38,6 @@ export class ReportService implements IReportService {
         );
 
         try {
-            console.log({ host: this.host, username: this.username, password: this.password, path: this.downloadPath })
-
             if (!this.host || !this.username || !this.password) {
                 throw new Error("Missing required environment variables.");
             }

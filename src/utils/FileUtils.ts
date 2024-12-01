@@ -26,7 +26,6 @@ export class FileUtils {
                 // Renomeia o arquivo
                 const newFilePath = path.join(downloadPath, this.nameUtils.getNewName());
                 fs.renameSync(downloadedFilePath, newFilePath);
-                console.log(`Arquivo renomeado com sucesso: ${newFilePath}`);
                 downloadedFilePath = newFilePath;
             } else if (Date.now() - startTime > timeout) {
                 throw new Error("O tempo de espera para o download expirou.");
@@ -35,7 +34,6 @@ export class FileUtils {
             }
         }
 
-        console.log(`Arquivo baixado com sucesso: ${downloadedFilePath}`);
         return downloadedFilePath;
     }
 
