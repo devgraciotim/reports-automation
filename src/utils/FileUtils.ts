@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from "fs";
+import * as XLSX from "xlsx";
 
 import { NameUtils } from "./NameUtils";
 
@@ -41,4 +42,17 @@ export class FileUtils {
     formatPath(pathParam: string) {
         return path.resolve(__dirname, pathParam);
     }
+
+    xlsxToObject(filePath: string) {
+        try {
+            const workbook = XLSX.readFile(filePath);
+            console.log(workbook.Workbook?.Sheets)
+        } catch (error) {
+            console.error(error);
+        }
+    }
 }
+
+
+const fileutil = new FileUtils();
+fileutil.xlsxToObject(fileutil.formatPath("C:/Users/j.graciotim/Documents/Projects/reports-automation/downloads/20241203143154.xlsx"));
