@@ -8,7 +8,7 @@ export class FileUtils {
 
     nameUtils: NameUtils = new NameUtils();
 
-    async waitForDownloadToFinish(downloadPath: string, timeout = 1800000): Promise<string> {
+    async waitForDownloadToFinish(downloadPath: string, timeout = 18000000): Promise<string> {
         const startTime = Date.now();
         let downloaded = false;
         let downloadedFilePath = '';
@@ -54,5 +54,5 @@ export class FileUtils {
 }
 
 
-const fileutil = new FileUtils();
-fileutil.xlsxToObject(fileutil.formatPath("C:/Users/j.graciotim/Documents/Projects/reports-automation/downloads/20241203143154.xlsx"));
+// const fileutil = new FileUtils();
+// fileutil.xlsxToObject(fileutil.formatPath("C:/Users/j.graciotim/Documents/Projects/reports-automation/downloads/20241203143154.xlsx"));

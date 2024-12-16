@@ -70,3 +70,37 @@ export class ReportService implements IReportService {
         }
     }
 }
+
+
+const report = new ReportService();
+report.getReport("01/01/2023", "31/03/2023");
+report.getReport("01/04/2023", "30/06/2023");
+report.getReport("01/07/2023", "30/09/2023");
+report.getReport("01/10/2023", "31/12/2023");
+report.getReport("01/01/2024", "31/03/2024");
+report.getReport("01/04/2024", "30/06/2024");
+report.getReport("01/07/2024", "30/09/2024");
+report.getReport("01/10/2024", "31/12/2024");
+
+
+
+// async function generateReportsSequentially() {
+//     const report = new ReportService();
+
+//     try {
+//         await report.getReport("01/01/2023", "31/03/2023");
+//         await report.getReport("01/04/2023", "30/06/2023");
+//         await report.getReport("01/07/2023", "30/09/2023");
+//         await report.getReport("01/10/2023", "31/12/2023");
+//         await report.getReport("01/01/2024", "31/03/2024");
+//         await report.getReport("01/04/2024", "30/06/2024");
+//         await report.getReport("01/07/2024", "30/09/2024");
+//         await report.getReport("01/10/2024", "31/12/2024");
+
+//         console.log("Todos os relatórios foram gerados com sucesso.");
+//     } catch (error) {
+//         console.error("Erro ao gerar os relatórios:", error);
+//     }
+// }
+
+// generateReportsSequentially();
