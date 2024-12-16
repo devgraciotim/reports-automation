@@ -13,7 +13,8 @@ export const data = {
     downloadButton: "/html/body/div[2]/div[3]/div[2]/div/div[2]/div/div/div[2]/div/div[2]/div/table/tbody/tr/td[1]/table/tbody/tr/td[12]/table/tbody/tr[2]/td[2]/em/button",
     analystSearchExport: "/html/body/div[2]/div[2]/div[2]/div/div[1]/div[2]/div/div/div/div[1]/div/div/div/ul/div/li[1]/ul/li/div/a",
 
-    teste: "/html/body/div[19]/ul/li/div/table/tbody/tr"
+    teste: "/html/body/div[19]/ul/li/div/table/tbody/tr",
+    noLicense: "/html/body/div[2]/div/div/div/div/div[2]/div[1]/div[3]/div[1]/div/span"
 };
 
 export const navigation = [

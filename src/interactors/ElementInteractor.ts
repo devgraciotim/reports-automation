@@ -32,4 +32,14 @@ export class ElementInteractor {
             console.error('Erro ao realizar login:', error);
         }
     }
+
+    async elementExists(driver: WebDriver, xpath: string): Promise<boolean> {
+        try {
+            await driver.findElement(By.xpath(xpath));
+            console.log("Element encontrado")
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
 }

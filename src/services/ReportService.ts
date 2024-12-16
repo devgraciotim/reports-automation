@@ -44,7 +44,16 @@ export class ReportService implements IReportService {
 
             await driver.get(this.host);
 
+            
             await this.elementInteractor.login(driver, this.username, this.password);
+
+            // while(true) {
+            //     if(await this.elementInteractor.elementExists(driver, data.noLicense)) {
+            //         await this.elementInteractor.login(driver, this.username, this.password);
+            //     } else {
+            //         break;
+            //     }
+            // }
 
             await this.elementInteractor.findAndClick(driver, data.analystSearchExport);
             await this.elementInteractor.findAndClick(driver, data.searchIn);
